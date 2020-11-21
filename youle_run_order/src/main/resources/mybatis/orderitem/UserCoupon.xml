@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sioeye.youle.run.order.gateways.repository.dao.UserCouponDao">
+  <resultMap id="BaseResultMap" type="com.sioeye.youle.run.order.gateways.repository.dataobject.UserCouponDo">
+    <id column="objectid" jdbcType="VARCHAR" property="objectid" />
+    <result column="userid" jdbcType="VARCHAR" property="userid" />
+    <result column="amusementparkid" jdbcType="VARCHAR" property="amusementparkid" />
+    <result column="parkname" jdbcType="VARCHAR" property="parkname" />
+    <result column="openid" jdbcType="VARCHAR" property="openid" />
+    <result column="timezone" jdbcType="VARCHAR" property="timezone" />
+    <result column="startdate" jdbcType="TIMESTAMP" property="startdate" />
+    <result column="enddate" jdbcType="TIMESTAMP" property="enddate" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="orderid" jdbcType="VARCHAR" property="orderid" />
+    <result
+            property="canbuygoodstypes"
+            column="canbuygoodstypes"
+            typeHandler="com.sioeye.youle.run.order.gateways.repository.dataobject.ArrayTypeHandler" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="gameId" jdbcType="VARCHAR" property="gameid" />
+    <result column="couponid" jdbcType="VARCHAR" property="couponid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    objectid, userid, amusementparkid, parkname, openid, timezone, startdate, enddate, 
+    updatetime, orderid, canbuygoodstypes, "level", gameId, couponid
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from "usercoupon"
+    where objectid = #{objectid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from "usercoupon"
+    where objectid = #{objectid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.sioeye.youle.run.order.gateways.repository.dataobject.UserCouponDo">
+     insert into "usercoupon" (objectid, userid, amusementparkid,
+      parkname, openid, timezone,
+      startdate, enddate, updatetime,
+      orderid, canbuygoodstypes, "level",
+      gameId, couponid)
+    values (#{objectid,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{amusementparkid,jdbcType=VARCHAR}, 
+      #{parkname,jdbcType=VARCHAR}, #{openid,jdbcType=VARCHAR}, #{timezone,jdbcType=VARCHAR}, 
+      #{startdate,jdbcType=TIMESTAMP}, #{enddate,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{orderid,jdbcType=VARCHAR}, #{canbuygoodstypes,jdbcType=ARRAY,typeHandler=com.sioeye.youle.run.order.gateways.repository.dataobject.ArrayTypeHandler},
+       #{level,jdbcType=INTEGER}, #{gameid,jdbcType=VARCHAR}, #{couponid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sioeye.youle.run.order.gateways.repository.dataobject.UserCouponDo">
+    insert into "usercoupon"
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="objectid != null">
+        objectid,
+      </if>
+      <if test="userid != null">
+        userid,
+      </if>
+      <if test="amusementparkid != null">
+        amusementparkid,
+      </if>
+      <if test="parkname != null">
+        parkname,
+      </if>
+      <if test="openid != null">
+        openid,
+      </if>
+      <if test="timezone != null">
+        timezone,
+      </if>
+      <if test="startdate != null">
+        startdate,
+      </if>
+      <if test="enddate != null">
+        enddate,
+      </if>
+      <if test="updatetime != null">
+        updatetime,
+      </if>
+      <if test="orderid != null">
+        orderid,
+      </if>
+      <if test="canbuygoodstypes != null">
+        canbuygoodstypes,
+      </if>
+      <if test="level != null">
+        "level",
+      </if>
+      <if test="gameid != null">
+        gameId,
+      </if>
+      <if test="couponid != null">
+        couponid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="objectid != null">
+        #{objectid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="amusementparkid != null">
+        #{amusementparkid,jdbcType=VARCHAR},
+      </if>
+      <if test="parkname != null">
+        #{parkname,jdbcType=VARCHAR},
+      </if>
+      <if test="openid != null">
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="timezone != null">
+        #{timezone,jdbcType=VARCHAR},
+      </if>
+      <if test="startdate != null">
+        #{startdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enddate != null">
+        #{enddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderid != null">
+        #{orderid,jdbcType=VARCHAR},
+      </if>
+      <if test="canbuygoodstypes != null">
+        #{canbuygoodstypes,jdbcType=ARRAY,typeHandler=com.sioeye.youle.run.order.gateways.repository.dataobject.ArrayTypeHandler},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="gameid != null">
+        #{gameid,jdbcType=VARCHAR},
+      </if>
+      <if test="couponid != null">
+        #{couponid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sioeye.youle.run.order.gateways.repository.dataobject.UserCouponDo">
+    update "usercoupon"
+    <set>
+      <if test="userid != null">
+        userid = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="amusementparkid != null">
+        amusementparkid = #{amusementparkid,jdbcType=VARCHAR},
+      </if>
+      <if test="parkname != null">
+        parkname = #{parkname,jdbcType=VARCHAR},
+      </if>
+      <if test="openid != null">
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="timezone != null">
+        timezone = #{timezone,jdbcType=VARCHAR},
+      </if>
+      <if test="startdate != null">
+        startdate = #{startdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enddate != null">
+        enddate = #{enddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderid != null">
+        orderid = #{orderid,jdbcType=VARCHAR},
+      </if>
+      <if test="canbuygoodstypes != null">
+       canbuygoodstypes= #{canbuygoodstypes,jdbcType=ARRAY,typeHandler=com.sioeye.youle.run.order.gateways.repository.dataobject.ArrayTypeHandler},
+      </if>
+      <if test="level != null">
+        "level" = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="gameid != null">
+        gameId = #{gameid,jdbcType=VARCHAR},
+      </if>
+      <if test="couponid != null">
+        couponid = #{couponid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where objectid = #{objectid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sioeye.youle.run.order.gateways.repository.dataobject.UserCouponDo">
+    update "usercoupon"
+    set userid = #{userid,jdbcType=VARCHAR},
+      amusementparkid = #{amusementparkid,jdbcType=VARCHAR},
+      parkname = #{parkname,jdbcType=VARCHAR},
+      openid = #{openid,jdbcType=VARCHAR},
+      timezone = #{timezone,jdbcType=VARCHAR},
+      startdate = #{startdate,jdbcType=TIMESTAMP},
+      enddate = #{enddate,jdbcType=TIMESTAMP},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      orderid = #{orderid,jdbcType=VARCHAR},
+      canbuygoodstypes = #{canbuygoodstypes,jdbcType=ARRAY,typeHandler=com.sioeye.youle.run.order.gateways.repository.dataobject.ArrayTypeHandler},
+      "level" = #{level,jdbcType=INTEGER},
+      gameId = #{gameid,jdbcType=VARCHAR},
+      couponid = #{couponid,jdbcType=VARCHAR}
+    where objectid = #{objectid,jdbcType=VARCHAR}
+  </update>
+</mapper>

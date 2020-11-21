@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sioeye.youle.run.order.gateways.repository.dao.OrderItemDao">
+  <resultMap id="BaseResultMap-Extension"
+             type="com.sioeye.youle.run.order.gateways.repository.dataobject.OrderItemExtensionDo">
+    <id column="objectid" jdbcType="VARCHAR" property="objectid" />
+    <result column="orderid" jdbcType="VARCHAR" property="orderid" />
+    <result column="userid" jdbcType="VARCHAR" property="userid" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="count" jdbcType="SMALLINT" property="count" />
+    <result column="currency" jdbcType="VARCHAR" property="currency" />
+    <result column="originalamount" jdbcType="NUMERIC" property="originalamount" />
+    <result column="promotionamount" jdbcType="NUMERIC" property="promotionamount" />
+    <result column="actualamount" jdbcType="NUMERIC" property="actualamount" />
+    <result column="promotiontype" jdbcType="SMALLINT" property="promotiontype" />
+    <result column="goodstype" jdbcType="SMALLINT" property="goodstype" />
+    <result column="goodsid" jdbcType="VARCHAR" property="goodsid" />
+    <result column="goodsname" jdbcType="VARCHAR" property="goodsname" />
+    <result column="goodsprice" jdbcType="NUMERIC" property="goodsprice" />
+    <result column="activityid" jdbcType="VARCHAR" property="activityid" />
+    <result column="amusementparkid" jdbcType="VARCHAR" property="amusementparkid" />
+    <result column="parkname" jdbcType="VARCHAR" property="parkname" />
+    <result column="gameid" jdbcType="VARCHAR" property="gameid" />
+    <result column="gamename" jdbcType="VARCHAR" property="gamename" />
+    <result column="seatid" jdbcType="VARCHAR" property="seatid" />
+    <result column="seatsequenceno" jdbcType="VARCHAR" property="seatsequenceno" />
+    <result column="seatmark" jdbcType="VARCHAR" property="seatmark" />
+    <result column="status" jdbcType="SMALLINT" property="status" />
+    <result column="previewurl" jdbcType="VARCHAR" property="previewurl" />
+    <result column="thumbnailurl" jdbcType="VARCHAR" property="thumbnailurl" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="shareid" jdbcType="VARCHAR" property="shareid" />
+    <result column="sharename" jdbcType="VARCHAR" property="sharename" />
+    <result column="shareuploadflag" jdbcType="SMALLINT" property="shareuploadflag" />
+    <result column="parkshareid" jdbcType="VARCHAR" property="parkshareid" />
+    <result column="shareurl" jdbcType="VARCHAR" property="shareurl" />
+    <result column="downloadurl" jdbcType="VARCHAR" property="downloadurl" />
+    <result column="orderno" jdbcType="VARCHAR" property="orderno" />
+    <result column="timezone" jdbcType="VARCHAR" property="timezone" />
+    <result column="paymenttime" jdbcType="TIMESTAMP" property="paymenttime" />
+  </resultMap>
+  <select id="getOrderCountByUserPaid" resultType="java.lang.Integer">
+    select
+    count(*)
+    from "orderitem"
+    where  userid = #{userid,jdbcType=VARCHAR} AND goodsid = #{goodsid,jdbcType=VARCHAR} AND status>=1
+  </select>
+  <select id="getLastPaidOrderByGoodsId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from "orderitem"
+    where userid=#{userid,jdbcType=VARCHAR} and goodsid=#{goodsid,jdbcType=VARCHAR} AND goodstype = #{goodstype,jdbcType=INTEGER} AND status>=1
+    ORDER BY createtime DESC limit 1;
+  </select>
+  <select id="getLastOrderByGoodsId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from "orderitem"
+    where  userid = #{userid,jdbcType=VARCHAR} AND goodsid = #{goodsid,jdbcType=VARCHAR} AND goodstype = #{goodstype,jdbcType=INTEGER}
+    ORDER BY createtime DESC limit 1;
+  </select>
+  <select id="getOrderFullPriceCount" resultType="java.lang.Integer">
+    select
+    COUNT(*)
+    from "orderitem"
+    where  userid = #{userid,jdbcType=VARCHAR} AND createtime between #{startdate,jdbcType=TIMESTAMP} AND  #{enddate,jdbcType=TIMESTAMP}
+    AND amusementparkid = #{amusementparkid,jdbcType=VARCHAR} AND goodstype = #{goodstype,jdbcType=INTEGER}
+    AND status>=1 AND promotiontype=0
+  </select>
+  <select id="getOrderPromotionPriceCount" resultType="java.lang.Integer">
+    select
+    COUNT(*)
+    from "orderitem"
+    where  userid = #{userid,jdbcType=VARCHAR} AND createtime between #{startdate,jdbcType=TIMESTAMP} AND  #{enddate,jdbcType=TIMESTAMP}
+    AND amusementparkid = #{amusementparkid,jdbcType=VARCHAR} AND goodstype = #{goodstype,jdbcType=INTEGER}
+    AND status>=1 AND promotiontype=1
+  </select>
+  <select id="getOrderPresentCount" resultType="java.lang.Integer">
+    select
+    COUNT(*)
+    from "orderitem"
+    where  userid = #{userid,jdbcType=VARCHAR} AND createtime between #{startdate,jdbcType=TIMESTAMP} AND  #{enddate,jdbcType=TIMESTAMP}
+    AND amusementparkid = #{amusementparkid,jdbcType=VARCHAR} AND goodstype = #{goodstype,jdbcType=INTEGER}
+    AND status>=1 AND promotiontype=4
+  </select>
+  <select id="getGoodsIdsByUserPark" resultType="java.lang.String">
+    select
+    goodsid
+    from "orderitem"
+    where  userid = #{userid,jdbcType=VARCHAR} AND createtime between #{startdate,jdbcType=TIMESTAMP} AND  #{enddate,jdbcType=TIMESTAMP}
+    AND amusementparkid = #{amusementparkid,jdbcType=VARCHAR} AND goodstype = #{goodstype,jdbcType=INTEGER}
+    AND status>=1
+  </select>
+  <select id="selectOrderItems" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from "orderitem"
+    where orderid = #{orderid,jdbcType=VARCHAR}
+  </select>
+  <select id="getLastPaidOrderByParkId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from "orderitem"
+    where  userid = #{userid,jdbcType=VARCHAR} AND amusementparkid = #{amusementparkid,jdbcType=VARCHAR}
+    AND goodstype = #{goodstype,jdbcType=INTEGER} AND status>=1
+    ORDER BY createtime DESC limit 1;
+  </select>
+  <select id="getLastOrderByParkId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from "orderitem"
+    where  userid = #{userid,jdbcType=VARCHAR} AND amusementparkid = #{amusementparkid,jdbcType=VARCHAR}
+    AND goodstype = #{goodstype,jdbcType=INTEGER}
+    ORDER BY createtime DESC limit 1;
+  </select>
+  <select id="getUserOrderList" resultMap="BaseResultMap-Extension">
+    select
+        "orderitem".objectid, "orderitem".orderid, "orderitem".userid, "orderitem".username,
+        "orderitem"."count", "orderitem".currency, "orderitem".originalamount,
+		"orderitem".promotionamount,
+		"orderitem".actualamount, "orderitem".promotiontype, "orderitem".goodstype,
+		"orderitem".goodsid, "orderitem".goodsname, "orderitem".goodsprice, "orderitem".activityid,
+		"orderitem".amusementparkid, "orderitem".parkname,gameid, gamename, seatid, seatsequenceno,
+		seatmark, "orderitem"."status",
+		previewurl, thumbnailurl, "orderitem".createtime, "orderitem".updatetime, shareid, sharename,
+		shareuploadflag,
+		parkshareid, shareurl, downloadurl,"order".orderno,"order".timezone,"order".paymenttime
+    from "orderitem" inner join "order" on "orderitem".orderid = "order".objectid
+    where "orderitem".userid = #{userid,jdbcType=VARCHAR}
+    AND "orderitem".goodstype = #{goodstype,jdbcType=INTEGER} AND status>=1
+    ORDER BY "orderitem".createtime DESC limit  #{limit,jdbcType=INTEGER} offset  #{offset,jdbcType=INTEGER};
+  </select>
+  <select id="getUserOrderCount" resultType="java.lang.Long">
+    select
+    COUNT(*)
+    from "orderitem"
+    where userid = #{userid,jdbcType=VARCHAR}
+    AND goodstype = #{goodstype,jdbcType=INTEGER};
+  </select>
+</mapper>

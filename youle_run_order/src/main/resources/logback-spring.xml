@@ -1,0 +1,26 @@
+<configuration>
+	<springProperty scope="context" name="app_name"
+		source="spring.application.name" />
+	<include resource="org/springframework/boot/logging/logback/defaults.xml" />
+	<include
+		resource="org/springframework/boot/logging/logback/console-appender.xml" />
+	<jmxConfigurator />
+	<appender name="logFile"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_FILE}</file>
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}.%i</fileNamePattern>
+			<MaxFileSize>10MB</MaxFileSize>
+		</rollingPolicy>
+		<encoder>
+			<pattern>
+				{"logTime":"%d{yyyy-MM-dd HH:mm:ss.SSS}","thread":"%thread","level":"%level","logger":"%logger{36}","method":"%method","line":"%line","msg":%msg}%n
+			</pattern>
+		</encoder>
+	</appender>
+	<root level="INFO">
+		<appender-ref ref="logFile" />
+		<appender-ref ref="CONSOLE" />
+	</root>
+</configuration>

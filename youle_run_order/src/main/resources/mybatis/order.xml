@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sioeye.youle.run.order.dao.IOrderDao">
+	<resultMap id="orderResultMap" type="com.sioeye.youle.run.order.model.Order">
+	</resultMap>
+	<resultMap id="BoughtOrderMap"
+		type="com.sioeye.youle.run.order.gateways.repository.dataobject.BoughtOrderDo">
+	</resultMap>
+	<sql id="dataBaseColumns">
+		objectid,paymentid,usersid,amusementparkid,parkname,activityid,gameid,gamename,count,originalamount,promotionamount,
+		promotionid,actualamount,status,ordertime,updatetime,type,ordertype,weishishare,weishishareurl,shareid,sharename,shareuploadflag,parkshareid
+	</sql>
+	<!-- 添加 -->
+	<insert id="save" parameterType="com.sioeye.youle.run.order.model.Order">
+		insert into "order" (
+		<include refid="dataBaseColumns"></include>
+		)
+		values(#{objectId},#{paymentId},#{usersId},#{amusementParkId},#{parkName},#{activityId},#{gameId},#{gameName},#{count},#{originalAmount},
+		#{promotionAmount},#{promotionId},#{actualAmount},#{status},#{orderTime},#{updateTime},#{type},#{orderType},#{weishiShare},#{weishiShareUrl},#{shareId},#{shareName},#{shareUploadFlag},#{parkShareId});
+	</insert>
+	<update id="update" parameterType="com.sioeye.youle.run.order.model.Order">
+		update "order" SET
+		status=#{status},
+		<if test="usersId != null and usersId != '' ">
+			usersid=#{usersId},
+		</if>
+		updatetime=#{updateTime}
+		where
+		objectid=#{objectId};
+	</update>
+	<update id="updateOrder" parameterType="com.sioeye.youle.run.order.model.Order">
+		update "order" SET
+		objectid=#{objectId},
+		paymentid=#{paymentId},
+		usersid=#{usersId},
+		amusementparkid=#{amusementParkId},
+		parkname=#{parkName},
+		activityid=#{activityId},
+		gameid=#{gameId},
+		gamename=#{gameName},
+		count=#{count},
+		originalamount=#{originalAmount},
+		promotionamount=#{promotionAmount},
+		promotionid=#{promotionId},
+		actualamount=#{actualAmount},
+		status=#{status},
+		ordertime=#{orderTime},
+		updatetime=#{updateTime},
+		type=#{type},
+		ordertype=#{orderType},
+		weishishare=#{weishiShare},
+		weishishareurl=#{weishiShareUrl}
+		where
+		objectid=#{objectId};
+	</update>
+	<update id="updateOrderId">
+		update "order" SET
+		objectid=#{order.objectId},
+		paymentid=#{order.paymentId}
+		where
+		objectid=#{orderId};
+	</update>
+	<select id="getOrderDetail" parameterType="java.lang.String"
+		resultMap="orderResultMap">
+		select
+		<include refid="dataBaseColumns"></include>
+		from "order" where objectid=#{objectId};
+	</select>
+	<select id="getOrderPaySuccessByPhotoId" resultMap="orderResultMap">
+		SELECT
+		"order".objectid,
+		"order".paymentid,
+		"order".usersid,
+		"order".amusementparkid,
+		"order".parkname,
+		"order".activityid,
+		"order".gameid,
+		"order".gamename,
+		"order". COUNT,
+		"order".originalamount,
+		"order".promotionamount,
+		"order".promotionid,
+		"order".actualamount,
+		"order".status,
+		"order".ordertime,
+		"order".updatetime,
+		"order". TYPE,
+		"order".ordertype,
+		"order".weishishare,
+		"order".weishishareurl
+		FROM
+		"order",
+		photobought
+		WHERE
+		"order".objectid = photobought.orderid
+		AND photobought.photoid =
+		#{photoId}
+		AND "order".usersid = #{userId}
+		AND "order".status =
+		1
+		ORDER BY
+		ordertime DESC
+		LIMIT 1;
+	</select>
+	<select id="getOrderDetailByPhotoId" resultMap="orderResultMap">
+		select
+		"order".objectid,
+		"order".paymentid,
+		"order".usersid,
+		"order".amusementparkid,
+		"order".parkname,
+		"order".activityid,
+		"order".gameid,
+		"order".gamename,
+		"order".count,
+		"order".originalamount,
+		"order".promotionamount,
+		"order".promotionid,
+		"order".actualamount,
+		"order".status,
+		"order".ordertime,
+		"order".updatetime,
+		"order".type,
+		"order".ordertype,
+		"order".weishishare,
+		"order".weishishareurl,
+		"order".shareid,
+		"order".sharename,
+		"order".shareuploadflag
+		from
+		"order",photobought where
+		"order".objectid=photobought.orderid
+		and
+		photobought.photoid=#{photoId} and
+		"order".usersid=#{userId} ORDER BY
+		ordertime DESC
+		limit
+		1;
+	</select>
+	<select id="getOrderPaySuccessByClipId" resultMap="orderResultMap">
+		select
+		"order".objectid,
+		"order".paymentid,
+		"order".usersid,
+		"order".amusementparkid,
+		"order".parkname,
+		"order".activityid,
+		"order".gameid,
+		"order".gamename,
+		"order".count,
+		"order".originalamount,
+		"order".promotionamount,
+		"order".promotionid,
+		"order".actualamount,
+		"order".status,
+		"order".ordertime,
+		"order".updatetime,
+		"order".type,
+		"order".ordertype,
+		"order".weishishare,
+		"order".weishishareurl
+		from
+		"order",clipbought where
+		"order".objectid=clipbought.orderid
+		and
+		clipbought.clipid=#{clipId} and
+		"order".usersid=#{userId} and
+		"order".status=1 ORDER
+		BY
+		ordertime DESC limit 1;
+	</select>
+	<select id="getOrderDetailByClipId" resultMap="orderResultMap">
+		select
+		"order".objectid,
+		"order".paymentid,
+		"order".usersid,
+		"order".amusementparkid,
+		"order".parkname,
+		"order".activityid,
+		"order".gameid,
+		"order".gamename,
+		"order".count,
+		"order".originalamount,
+		"order".promotionamount,
+		"order".promotionid,
+		"order".actualamount,
+		"order".status,
+		"order".ordertime,
+		"order".updatetime,
+		"order".type,
+		"order".ordertype,
+		"order".weishishare,
+		"order".weishishareurl,
+		"order".shareid,
+		"order".sharename,
+		"order".shareuploadflag
+		from
+		"order",clipbought where
+		"order".objectid=clipbought.orderid
+		and
+		clipbought.clipid=#{clipId} and
+		"order".usersid=#{userId} ORDER BY
+		ordertime DESC
+		limit
+		1;
+	</select>
+	<select id="getOrderList" parameterType="java.util.Map"
+		resultMap="orderResultMap">
+		select
+		<include refid="dataBaseColumns"></include>
+		from "order" where 1=1 order by ordertime desc
+		limit #{limit} offset
+		#{offset};
+	</select>
+	<select id="getOrderListCount" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		select count(objectid) from "order";
+	</select>
+	<select id="getOrderFullPriceCount" resultType="java.lang.Integer">
+		select
+		count(objectid) from "order"
+		where ordertype=0
+		and type=#{type}
+		and
+		status=1
+		and
+		usersid=#{usersId}
+		and amusementparkid=#{amusementParkId}
+		and updatetime
+		&gt;=#{startDate}
+		and updatetime &lt;=#{endDate};
+	</select>
+	<select id="getOrderPromotionPriceCount" resultType="java.lang.Integer">
+		select
+		count(objectid) from "order"
+		where ordertype=1
+		and type=#{type}
+		and
+		status=1
+		and
+		usersid=#{usersId}
+		and amusementparkid=#{amusementParkId}
+		and updatetime
+		&gt;=#{startDate}
+		and updatetime &lt;=#{endDate};
+	</select>
+	<select id="getOrderHighlightMergingCount" resultType="java.lang.Integer">
+		SELECT
+		count(tmp.objectid) FROM
+		(
+		SELECT o.objectid FROM
+		"order" o
+		WHERE
+		o.usersid = #{usersId}
+		AND "type" = #{type}
+		) tmp
+		LEFT JOIN
+		orderhighlight ohl ON
+		tmp.objectid = ohl.orderid
+		LEFT JOIN
+		highlightbought hlb ON ohl.highlightid =
+		hlb.objectid
+		where
+		hlb.status=#{highlightStatus}
+		and hlb."enable"=true;
+	</select>
+	<select id="getOrderByHighlightId" resultMap="orderResultMap">
+		SELECT
+		tmp.objectid,tmp.paymentid,tmp.usersid,tmp.amusementparkid,tmp.activityid,tmp."count",tmp.originalamount,tmp.promotionid,
+		tmp.promotionamount,tmp.actualamount,tmp.status,tmp.ordertime,tmp.updatetime,tmp."type",tmp.ordertype,tmp.parkname,
+		tmp.shareid,tmp.sharename,tmp.shareuploadflag
+		FROM
+		(
+		SELECT
+		objectid,paymentid,usersid,amusementparkid,activityid,"count",originalamount,promotionid,promotionamount,actualamount,
+		status,ordertime,updatetime,"type",ordertype,parkname,shareid,sharename,shareuploadflag
+		FROM
+		"order"
+		WHERE
+		"type" = #{type}
+		AND
+		usersid=#{usersId}
+		) tmp
+		LEFT JOIN
+		orderhighlight ohl
+		ON tmp.objectid =
+		ohl.orderid
+		LEFT
+		JOIN
+		highlightbought
+		hlb ON ohl.highlightid =
+		hlb.objectid
+		AND
+		hlb."enable" = TRUE
+		WHERE
+		hlb.objectid = #{highlightId};
+	</select>
+
+	<select id="queryBoughtList" resultMap="BoughtOrderMap">
+		SELECT
+		A.objectid orderId,
+		A.amusementparkid amusementparkId,
+		A.parkname
+		parkName,
+		c.goodsname
+		goodsName,
+		c.goodstype goodsType,
+		c.gamename gameName,
+		A.ordertype,
+		A.updatetime paymentTime,
+		A.status
+		status,
+		c.goodsid goodsId,
+		c.resourcecategory resourceCategory,
+		c.resourcetype resourceType,
+		c.status itemStatus,
+		(
+		CASE
+		WHEN C .goodstype = 3
+		OR C .goodstype = 5 THEN
+		(
+		CASE
+		WHEN C .status = 2 THEN
+		C .downloadurl
+		ELSE
+		C .previewurl
+		END
+		)
+		ELSE
+		C .thumbnailurl
+		END
+		) thumnailUrl
+		FROM
+		"order" A
+		inner join orderitem c on
+		A.objectid=c.orderid
+		and
+		A."type"=c.goodstype
+		WHERE
+		A.status = 1
+		AND A.type
+		not in (1,2)
+		AND
+		A.usersid = #{userId}
+		order by a.updatetime desc
+		limit
+		#{pageSize}
+		offset
+		#{pageNo};
+	</select>
+
+	<select id="queryBoughtTotal" resultType="java.lang.Integer">
+		SELECT
+		count(*)
+		FROM
+		"order" A
+		WHERE
+		A.status = 1
+		AND A.type != 1
+		AND A.type != 2
+		AND A.usersid
+		= #{userId};
+	</select>
+
+</mapper>

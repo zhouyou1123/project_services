@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sioeye.youle.run.order.gateways.repository.dao.OrderDao">
+	<resultMap id="BaseResultMap"
+		type="com.sioeye.youle.run.order.gateways.repository.dataobject.OrderDo">
+		<id column="objectid" jdbcType="VARCHAR" property="objectid" />
+		<result column="paymentid" jdbcType="VARCHAR" property="paymentid" />
+		<result column="usersid" jdbcType="VARCHAR" property="usersid" />
+		<result column="amusementparkid" jdbcType="VARCHAR" property="amusementparkid" />
+		<result column="activityid" jdbcType="VARCHAR" property="activityid" />
+		<result column="count" jdbcType="SMALLINT" property="count" />
+		<result column="originalamount" jdbcType="NUMERIC" property="originalamount" />
+		<result column="promotionamount" jdbcType="NUMERIC" property="promotionamount" />
+		<result column="promotionid" jdbcType="VARCHAR" property="promotionid" />
+		<result column="actualamount" jdbcType="NUMERIC" property="actualamount" />
+		<result column="status" jdbcType="SMALLINT" property="status" />
+		<result column="ordertime" jdbcType="TIMESTAMP" property="ordertime" />
+		<result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+		<result column="type" jdbcType="SMALLINT" property="type" />
+		<result column="ordertype" jdbcType="SMALLINT" property="ordertype" />
+		<result column="weishishare" jdbcType="BIT" property="weishishare" />
+		<result column="weishishareurl" jdbcType="VARCHAR" property="weishishareurl" />
+		<result column="parkname" jdbcType="VARCHAR" property="parkname" />
+		<result column="gameid" jdbcType="VARCHAR" property="gameid" />
+		<result column="gamename" jdbcType="VARCHAR" property="gamename" />
+		<result column="shareid" jdbcType="VARCHAR" property="shareid" />
+		<result column="sharename" jdbcType="VARCHAR" property="sharename" />
+		<result column="shareuploadflag" jdbcType="SMALLINT" property="shareuploadflag" />
+		<result column="parkshareid" jdbcType="VARCHAR" property="parkshareid" />
+		<result column="devicerecordid" jdbcType="VARCHAR" property="devicerecordid" />
+		<result column="devicetype" jdbcType="SMALLINT" property="devicetype" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		objectid, paymentid, usersid, amusementparkid, activityid, "count",
+		originalamount,
+		promotionamount, promotionid, actualamount, "status", ordertime, updatetime, "type",
+		ordertype, weishishare, weishishareurl, parkname, gameid, gamename,
+		shareid, sharename,
+		shareuploadflag, parkshareid,devicerecordid,devicetype
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from "order"
+		where objectid = #{objectid,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from "order"
+		where objectid = #{objectid,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert"
+		parameterType="com.sioeye.youle.run.order.gateways.repository.dataobject.OrderDo">
+		insert into "order" (objectid, paymentid, usersid,
+		amusementparkid, activityid, "count",
+		originalamount, promotionamount, promotionid,
+		actualamount, "status", ordertime,
+		updatetime, "type", ordertype,
+		weishishare, weishishareurl, parkname,
+		gameid, gamename, shareid,
+		sharename, shareuploadflag, parkshareid,devicerecordid,searchid
+		)
+		values (#{objectid,jdbcType=VARCHAR}, #{paymentid,jdbcType=VARCHAR},
+		#{usersid,jdbcType=VARCHAR},
+		#{amusementparkid,jdbcType=VARCHAR}, #{activityid,jdbcType=VARCHAR}, #{count,jdbcType=SMALLINT},
+		#{originalamount,jdbcType=NUMERIC},
+		#{promotionamount,jdbcType=NUMERIC}, #{promotionid,jdbcType=VARCHAR},
+		#{actualamount,jdbcType=NUMERIC}, #{status,jdbcType=SMALLINT},
+		#{ordertime,jdbcType=TIMESTAMP},
+		#{updatetime,jdbcType=TIMESTAMP}, #{type,jdbcType=SMALLINT}, #{ordertype,jdbcType=SMALLINT},
+		#{weishishare,jdbcType=BIT}, #{weishishareurl,jdbcType=VARCHAR},
+		#{parkname,jdbcType=VARCHAR},
+		#{gameid,jdbcType=VARCHAR}, #{gamename,jdbcType=VARCHAR}, #{shareid,jdbcType=VARCHAR},
+		#{sharename,jdbcType=VARCHAR}, #{shareuploadflag,jdbcType=SMALLINT},
+		#{parkshareid,jdbcType=VARCHAR},
+		#{devicerecordid,jdbcType=VARCHAR},#{searchid,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.sioeye.youle.run.order.gateways.repository.dataobject.OrderDo">
+		insert into "order"
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="objectid != null">
+				objectid,
+			</if>
+			<if test="paymentid != null">
+				paymentid,
+			</if>
+			<if test="usersid != null">
+				usersid,
+			</if>
+			<if test="amusementparkid != null">
+				amusementparkid,
+			</if>
+			<if test="activityid != null">
+				activityid,
+			</if>
+			<if test="count != null">
+				"count",
+			</if>
+			<if test="originalamount != null">
+				originalamount,
+			</if>
+			<if test="promotionamount != null">
+				promotionamount,
+			</if>
+			<if test="promotionid != null">
+				promotionid,
+			</if>
+			<if test="actualamount != null">
+				actualamount,
+			</if>
+			<if test="status != null">
+				"status",
+			</if>
+			<if test="ordertime != null">
+				ordertime,
+			</if>
+			<if test="updatetime != null">
+				updatetime,
+			</if>
+			<if test="type != null">
+				"type",
+			</if>
+			<if test="ordertype != null">
+				ordertype,
+			</if>
+			<if test="weishishare != null">
+				weishishare,
+			</if>
+			<if test="weishishareurl != null">
+				weishishareurl,
+			</if>
+			<if test="parkname != null">
+				parkname,
+			</if>
+			<if test="gameid != null">
+				gameid,
+			</if>
+			<if test="gamename != null">
+				gamename,
+			</if>
+			<if test="shareid != null">
+				shareid,
+			</if>
+			<if test="sharename != null">
+				sharename,
+			</if>
+			<if test="shareuploadflag != null">
+				shareuploadflag,
+			</if>
+			<if test="parkshareid != null">
+				parkshareid,
+			</if>
+			<if test="devicerecordid != null">
+				devicerecordid,
+			</if>
+			<if test="devicetype != null">
+				devicetype,
+			</if>
+			<if test="searchid != null">
+				searchid,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="objectid != null">
+				#{objectid,jdbcType=VARCHAR},
+			</if>
+			<if test="paymentid != null">
+				#{paymentid,jdbcType=VARCHAR},
+			</if>
+			<if test="usersid != null">
+				#{usersid,jdbcType=VARCHAR},
+			</if>
+			<if test="amusementparkid != null">
+				#{amusementparkid,jdbcType=VARCHAR},
+			</if>
+			<if test="activityid != null">
+				#{activityid,jdbcType=VARCHAR},
+			</if>
+			<if test="count != null">
+				#{count,jdbcType=SMALLINT},
+			</if>
+			<if test="originalamount != null">
+				#{originalamount,jdbcType=NUMERIC},
+			</if>
+			<if test="promotionamount != null">
+				#{promotionamount,jdbcType=NUMERIC},
+			</if>
+			<if test="promotionid != null">
+				#{promotionid,jdbcType=VARCHAR},
+			</if>
+			<if test="actualamount != null">
+				#{actualamount,jdbcType=NUMERIC},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=SMALLINT},
+			</if>
+			<if test="ordertime != null">
+				#{ordertime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatetime != null">
+				#{updatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=SMALLINT},
+			</if>
+			<if test="ordertype != null">
+				#{ordertype,jdbcType=SMALLINT},
+			</if>
+			<if test="weishishare != null">
+				#{weishishare,jdbcType=BIT},
+			</if>
+			<if test="weishishareurl != null">
+				#{weishishareurl,jdbcType=VARCHAR},
+			</if>
+			<if test="parkname != null">
+				#{parkname,jdbcType=VARCHAR},
+			</if>
+			<if test="gameid != null">
+				#{gameid,jdbcType=VARCHAR},
+			</if>
+			<if test="gamename != null">
+				#{gamename,jdbcType=VARCHAR},
+			</if>
+			<if test="shareid != null">
+				#{shareid,jdbcType=VARCHAR},
+			</if>
+			<if test="sharename != null">
+				#{sharename,jdbcType=VARCHAR},
+			</if>
+			<if test="shareuploadflag != null">
+				#{shareuploadflag,jdbcType=SMALLINT},
+			</if>
+			<if test="parkshareid != null">
+				#{parkshareid,jdbcType=VARCHAR},
+			</if>
+			<if test="devicerecordid != null">
+				#{devicerecordid,jdbcType=VARCHAR},
+			</if>
+			<if test="devicetype != null">
+				#{devicetype,jdbcType=SMALLINT},
+			</if>
+			<if test="searchid != null">
+				#{searchid,jdbcType=SMALLINT},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.sioeye.youle.run.order.gateways.repository.dataobject.OrderDo">
+		update "order"
+		<set>
+			<if test="paymentid != null">
+				paymentid = #{paymentid,jdbcType=VARCHAR},
+			</if>
+			<if test="usersid != null">
+				usersid = #{usersid,jdbcType=VARCHAR},
+			</if>
+			<if test="amusementparkid != null">
+				amusementparkid = #{amusementparkid,jdbcType=VARCHAR},
+			</if>
+			<if test="activityid != null">
+				activityid = #{activityid,jdbcType=VARCHAR},
+			</if>
+			<if test="count != null">
+				"count" = #{count,jdbcType=SMALLINT},
+			</if>
+			<if test="originalamount != null">
+				originalamount = #{originalamount,jdbcType=NUMERIC},
+			</if>
+			<if test="promotionamount != null">
+				promotionamount = #{promotionamount,jdbcType=NUMERIC},
+			</if>
+			<if test="promotionid != null">
+				promotionid = #{promotionid,jdbcType=VARCHAR},
+			</if>
+			<if test="actualamount != null">
+				actualamount = #{actualamount,jdbcType=NUMERIC},
+			</if>
+			<if test="status != null">
+				"status" = #{status,jdbcType=SMALLINT},
+			</if>
+			<if test="ordertime != null">
+				ordertime = #{ordertime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatetime != null">
+				updatetime = #{updatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="type != null">
+				"type" = #{type,jdbcType=SMALLINT},
+			</if>
+			<if test="ordertype != null">
+				ordertype = #{ordertype,jdbcType=SMALLINT},
+			</if>
+			<if test="weishishare != null">
+				weishishare = #{weishishare,jdbcType=BIT},
+			</if>
+			<if test="weishishareurl != null">
+				weishishareurl = #{weishishareurl,jdbcType=VARCHAR},
+			</if>
+			<if test="parkname != null">
+				parkname = #{parkname,jdbcType=VARCHAR},
+			</if>
+			<if test="gameid != null">
+				gameid = #{gameid,jdbcType=VARCHAR},
+			</if>
+			<if test="gamename != null">
+				gamename = #{gamename,jdbcType=VARCHAR},
+			</if>
+			<if test="shareid != null">
+				shareid = #{shareid,jdbcType=VARCHAR},
+			</if>
+			<if test="sharename != null">
+				sharename = #{sharename,jdbcType=VARCHAR},
+			</if>
+			<if test="shareuploadflag != null">
+				shareuploadflag = #{shareuploadflag,jdbcType=SMALLINT},
+			</if>
+			<if test="parkshareid != null">
+				parkshareid = #{parkshareid,jdbcType=VARCHAR},
+			</if>
+			<if test="searchid != null">
+				searchid = #{searchid,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where objectid = #{objectid,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.sioeye.youle.run.order.gateways.repository.dataobject.OrderDo">
+		update "order"
+		set paymentid = #{paymentid,jdbcType=VARCHAR},
+		usersid = #{usersid,jdbcType=VARCHAR},
+		amusementparkid = #{amusementparkid,jdbcType=VARCHAR},
+		activityid = #{activityid,jdbcType=VARCHAR},
+		"count" = #{count,jdbcType=SMALLINT},
+		originalamount = #{originalamount,jdbcType=NUMERIC},
+		promotionamount = #{promotionamount,jdbcType=NUMERIC},
+		promotionid = #{promotionid,jdbcType=VARCHAR},
+		actualamount = #{actualamount,jdbcType=NUMERIC},
+		"status" = #{status,jdbcType=SMALLINT},
+		ordertime = #{ordertime,jdbcType=TIMESTAMP},
+		updatetime = #{updatetime,jdbcType=TIMESTAMP},
+		"type" = #{type,jdbcType=SMALLINT},
+		ordertype = #{ordertype,jdbcType=SMALLINT},
+		weishishare = #{weishishare,jdbcType=BIT},
+		weishishareurl = #{weishishareurl,jdbcType=VARCHAR},
+		parkname = #{parkname,jdbcType=VARCHAR},
+		gameid = #{gameid,jdbcType=VARCHAR},
+		gamename = #{gamename,jdbcType=VARCHAR},
+		shareid = #{shareid,jdbcType=VARCHAR},
+		sharename = #{sharename,jdbcType=VARCHAR},
+		shareuploadflag = #{shareuploadflag,jdbcType=SMALLINT},
+		parkshareid = #{parkshareid,jdbcType=VARCHAR},
+		searchid = #{searchid,jdbcType=VARCHAR}
+		where objectid = #{objectid,jdbcType=VARCHAR}
+	</update>
+</mapper>

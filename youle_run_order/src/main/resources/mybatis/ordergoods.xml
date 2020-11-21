@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sioeye.youle.run.order.dao.IOrderGoodsDao">
+	<resultMap
+		id="orderResultMap"
+		type="com.sioeye.youle.run.order.model.Order">
+	</resultMap>
+	<sql id="dataBaseColumns">
+		objectid,paymentid,usersid,amusementparkid,parkname,activityid,gameid,gamename,count,originalamount,promotionamount,
+		promotionid,actualamount,status,ordertime,updatetime,type,ordertype,weishishare,weishishareurl
+	</sql>
+
+	<resultMap id="BaseResultMap_OrderItem" type="com.sioeye.youle.run.order.model.OrderItem">
+		<id column="objectid" jdbcType="VARCHAR" property="objectid" />
+		<result column="orderid" jdbcType="VARCHAR" property="orderid" />
+		<result column="goodstype" jdbcType="SMALLINT" property="goodstype" />
+		<result column="goodsid" jdbcType="VARCHAR" property="goodsid" />
+		<result column="goodsname" jdbcType="VARCHAR" property="goodsname" />
+		<result column="amusementparkid" jdbcType="VARCHAR" property="amusementparkid" />
+		<result column="parkname" jdbcType="VARCHAR" property="parkname" />
+		<result column="gameid" jdbcType="VARCHAR" property="gameid" />
+		<result column="gamename" jdbcType="VARCHAR" property="gamename" />
+		<result column="seatid" jdbcType="VARCHAR" property="seatid" />
+		<result column="seatsequenceno" jdbcType="VARCHAR" property="seatsequenceno" />
+		<result column="seatmark" jdbcType="VARCHAR" property="seatmark" />
+		<result column="status" jdbcType="SMALLINT" property="status" />
+		<result column="url" jdbcType="VARCHAR" property="url" />
+		<result column="thumbnailurl" jdbcType="VARCHAR" property="thumbnailurl" />
+		<result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+		<result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+		<result column="filingstatus" jdbcType="SMALLINT" property="filingstatus" />
+		<result column="uploadflag" jdbcType="SMALLINT" property="uploadflag" />
+	</resultMap>
+	<sql id="Base_Column_List_OrderItem">
+		objectid, orderid, goodstype, goodsid, goodsname, amusementparkid, parkname, gameid,
+		gamename, seatid, seatsequenceno, seatmark, "status", url, thumbnailurl, createtime,
+		updatetime, filingstatus, uploadflag
+	</sql>
+
+	<resultMap id="BaseResultMap_OrderItemExtend" type="com.sioeye.youle.run.order.model.OrderItemExtend">
+		<id column="objectid" jdbcType="VARCHAR" property="objectid" />
+		<result column="orderid" jdbcType="VARCHAR" property="orderid" />
+		<result column="extendcontext" jdbcType="VARCHAR" property="extendcontext" />
+	</resultMap>
+	<sql id="Base_Column_List_OrderItemExtend">
+		objectid, orderid, extendcontext
+	 </sql>
+
+	<resultMap id="BaseResultMap_UserCoupon" type="com.sioeye.youle.run.order.model.UserCoupon">
+		<id column="objectid" jdbcType="VARCHAR" property="objectid" />
+		<result column="userid" jdbcType="VARCHAR" property="userid" />
+		<result column="amusementparkid" jdbcType="VARCHAR" property="amusementparkid" />
+		<result column="parkname" jdbcType="VARCHAR" property="parkname" />
+		<result column="openid" jdbcType="VARCHAR" property="openid" />
+		<result column="timezone" jdbcType="VARCHAR" property="timezone" />
+		<result column="startdate" jdbcType="TIMESTAMP" property="startdate" />
+		<result column="enddate" jdbcType="TIMESTAMP" property="enddate" />
+		<result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+		<result column="orderid" jdbcType="VARCHAR" property="orderid" />
+		<result
+				property="canbuygoodstypes"
+				column="canbuygoodstypes"
+				typeHandler="com.sioeye.youle.run.order.model.ArrayTypeHandler" />
+	</resultMap>
+	<sql id="Base_Column_List_UserCoupon">
+		objectid, userid, amusementparkid, parkname, openid, timezone, startdate, enddate,
+		updatetime, orderid,canbuygoodstypes
+	</sql>
+
+	<!-- 添加 -->
+	<insert
+		id="save"
+		parameterType="com.sioeye.youle.run.order.model.Order">
+		insert into "order" (
+		<include refid="dataBaseColumns"></include>
+		)
+		values(#{objectId},#{paymentId},#{usersId},#{amusementParkId},#{parkName},#{activityId},#{gameId},#{gameName},#{count},#{originalAmount},
+		#{promotionAmount},#{promotionId},#{actualAmount},#{status},#{orderTime},#{updateTime},#{type},#{orderType},#{weishiShare},#{weishiShareUrl});
+	</insert>
+	<insert id="saveOrderItem" parameterType="com.sioeye.youle.run.order.model.OrderItem">
+		insert into "orderitem" (objectid, orderid, goodstype,
+		  goodsid, goodsname, amusementparkid,
+		  parkname, gameid, gamename,
+		  seatid, seatsequenceno, seatmark,
+		  "status", url, thumbnailurl,
+		  createtime, updatetime, filingstatus,
+		  uploadflag)
+		values (#{objectid,jdbcType=VARCHAR}, #{orderid,jdbcType=VARCHAR}, #{goodstype,jdbcType=SMALLINT},
+		  #{goodsid,jdbcType=VARCHAR}, #{goodsname,jdbcType=VARCHAR}, #{amusementparkid,jdbcType=VARCHAR},
+		  #{parkname,jdbcType=VARCHAR}, #{gameid,jdbcType=VARCHAR}, #{gamename,jdbcType=VARCHAR},
+		  #{seatid,jdbcType=VARCHAR}, #{seatsequenceno,jdbcType=VARCHAR}, #{seatmark,jdbcType=VARCHAR},
+		  #{status,jdbcType=SMALLINT}, #{url,jdbcType=VARCHAR}, #{thumbnailurl,jdbcType=VARCHAR},
+		  #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, #{filingstatus,jdbcType=SMALLINT},
+		  #{uploadflag,jdbcType=SMALLINT})
+	  </insert>
+	<insert id="saveOrderItemExtend" parameterType="com.sioeye.youle.run.order.model.OrderItemExtend">
+		insert into "orderitemextend" (objectid, orderid, extendcontext
+		  )
+		values (#{objectid,jdbcType=VARCHAR}, #{orderid,jdbcType=VARCHAR}, #{extendcontext,jdbcType=VARCHAR}
+		  )
+	</insert>
+	<insert id="saveUserCoupon" parameterType="com.sioeye.youle.run.order.model.UserCoupon">
+		insert into "usercoupon" (objectid, userid, amusementparkid,
+		  parkname, openid, timezone,
+		  startdate, enddate, updatetime,
+		  orderid,canbuygoodstypes)
+		values (#{objectid,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{amusementparkid,jdbcType=VARCHAR},
+		  #{parkname,jdbcType=VARCHAR}, #{openid,jdbcType=VARCHAR}, #{timezone,jdbcType=VARCHAR},
+		  #{startdate,jdbcType=TIMESTAMP}, #{enddate,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP},
+		  #{orderid,jdbcType=VARCHAR},#{canbuygoodstypes,jdbcType=ARRAY,typeHandler=com.sioeye.youle.run.order.model.ArrayTypeHandler})
+	</insert>
+
+	<update id="updateUserCoupon" parameterType="com.sioeye.youle.run.order.model.UserCoupon">
+		update "usercoupon"
+		set userid = #{userid,jdbcType=VARCHAR},
+		  amusementparkid = #{amusementparkid,jdbcType=VARCHAR},
+		  parkname = #{parkname,jdbcType=VARCHAR},
+		  openid = #{openid,jdbcType=VARCHAR},
+		  timezone = #{timezone,jdbcType=VARCHAR},
+		  startdate = #{startdate,jdbcType=TIMESTAMP},
+		  enddate = #{enddate,jdbcType=TIMESTAMP},
+		  updatetime = #{updatetime,jdbcType=TIMESTAMP},
+		  orderid = #{orderid,jdbcType=VARCHAR},
+		  canbuygoodstypes = #{canbuygoodstypes,jdbcType=ARRAY,typeHandler=com.sioeye.youle.run.order.model.ArrayTypeHandler}
+		where objectid = #{objectid,jdbcType=VARCHAR}
+	</update>
+	<update
+		id="update"
+		parameterType="com.sioeye.youle.run.order.model.Order">
+		update "order" SET
+		status=#{status},
+		updatetime=#{updateTime}
+		where
+		objectid=#{objectId};
+	</update>
+
+	<update
+			id="updateOrderItem"
+			parameterType="com.sioeye.youle.run.order.model.OrderItem">
+		update "orderitem" SET
+		status=#{status},
+		filingstatus=#{filingstatus},
+		updatetime=#{updatetime}
+		where
+		objectid=#{objectid};
+	</update>
+
+	<update
+		id="updateOrder"
+		parameterType="com.sioeye.youle.run.order.model.Order">
+		update "order" SET
+		objectid=#{objectId},
+		paymentid=#{paymentId},
+		usersid=#{usersId},
+		amusementparkid=#{amusementParkId},
+		parkname=#{parkName},
+		activityid=#{activityId},
+		gameid=#{gameId},
+		gamename=#{gameName},
+		count=#{count},
+		originalamount=#{originalAmount},
+		promotionamount=#{promotionAmount},
+		promotionid=#{promotionId},
+		actualamount=#{actualAmount},
+		status=#{status},
+		ordertime=#{orderTime},
+		updatetime=#{updateTime},
+		type=#{type},
+		ordertype=#{orderType},
+		weishishare=#{weishiShare},
+		weishishareurl=#{weishiShareUrl}
+		where
+		objectid=#{objectId};
+	</update>
+	<update id="updateOrderId">
+		update "order" SET
+		objectid=#{order.objectId},
+		paymentid=#{order.paymentId}
+		where
+		objectid=#{orderId};
+	</update>
+	<select
+		id="getOrderDetail"
+		parameterType="java.lang.String"
+		resultMap="orderResultMap">
+		select
+		<include refid="dataBaseColumns"></include>
+		from "order" where objectid=#{objectId};
+	</select>
+	<select
+			id="getOrderItemDetail"
+			parameterType="java.lang.String"
+			resultMap="BaseResultMap_OrderItem">
+		select
+		<include refid="Base_Column_List_OrderItem"></include>
+		from "orderitem" where orderid=#{orderid};
+	</select>
+	<select
+			id="getOrderItemExtendDetail"
+			parameterType="java.lang.String"
+			resultMap="BaseResultMap_OrderItemExtend">
+		select
+		<include refid="Base_Column_List_OrderItemExtend"></include>
+		from "orderitemextend" where orderid=#{orderid};
+	</select>
+	<select
+			id="getUserCoupon"
+			resultMap="BaseResultMap_UserCoupon">
+		select
+		<include refid="Base_Column_List_UserCoupon"></include>
+		from "usercoupon" where userid=#{userid} and amusementparkid=#{amusementparkid};
+	</select>
+	<select
+			id="getLastOrderByUserPaid"
+			resultMap="orderResultMap">
+		select
+		<include refid="dataBaseColumns"></include>
+		from "order" where "order".usersid=#{userid} and "order".amusementparkid=#{parkid} and "order".type=#{type} AND "order".status = 1
+		ORDER BY
+		ordertime DESC
+		LIMIT 1;
+	</select>
+	<select
+			id="getLastOrderByUserType"
+			resultMap="orderResultMap">
+		select
+		<include refid="dataBaseColumns"></include>
+		from "order" where "order".usersid=#{userid} and "order".amusementparkid=#{parkid} and "order".type=#{type}
+		ORDER BY
+		ordertime DESC
+		LIMIT 1;
+	</select>
+
+	<select
+		id="getOrderPaySuccessByPhotoId"
+		resultMap="orderResultMap">
+		SELECT
+		"order".objectid,
+		"order".paymentid,
+		"order".usersid,
+		"order".amusementparkid,
+		"order".parkname,
+		"order".activityid,
+		"order".gameid,
+		"order".gamename,
+		"order". COUNT,
+		"order".originalamount,
+		"order".promotionamount,
+		"order".promotionid,
+		"order".actualamount,
+		"order".status,
+		"order".ordertime,
+		"order".updatetime,
+		"order". TYPE,
+		"order".ordertype,
+		"order".weishishare,
+		"order".weishishareurl
+		FROM
+		"order",
+		photobought
+		WHERE
+		"order".objectid = photobought.orderid
+		AND photobought.photoid = #{photoId}
+		AND "order".usersid = #{userId}
+		AND "order".status = 1
+		ORDER BY
+		ordertime DESC
+		LIMIT 1;
+	</select>
+	<select
+		id="getOrderDetailByPhotoId"
+		resultMap="orderResultMap">
+		select
+		"order".objectid,
+		"order".paymentid,
+		"order".usersid,
+		"order".amusementparkid,
+		"order".parkname,
+		"order".activityid,
+		"order".gameid,
+		"order".gamename,
+		"order".count,
+		"order".originalamount,
+		"order".promotionamount,
+		"order".promotionid,
+		"order".actualamount,
+		"order".status,
+		"order".ordertime,
+		"order".updatetime,
+		"order".type,
+		"order".ordertype,
+		"order".weishishare,
+		"order".weishishareurl
+		from
+		"order",photobought where
+		"order".objectid=photobought.orderid
+		and
+		photobought.photoid=#{photoId} and
+		"order".usersid=#{userId} ORDER BY ordertime DESC
+		limit
+		1;
+	</select>
+	<select
+		id="getOrderPaySuccessByClipId"
+		resultMap="orderResultMap">
+		select
+		"order".objectid,
+		"order".paymentid,
+		"order".usersid,
+		"order".amusementparkid,
+		"order".parkname,
+		"order".activityid,
+		"order".gameid,
+		"order".gamename,
+		"order".count,
+		"order".originalamount,
+		"order".promotionamount,
+		"order".promotionid,
+		"order".actualamount,
+		"order".status,
+		"order".ordertime,
+		"order".updatetime,
+		"order".type,
+		"order".ordertype,
+		"order".weishishare,
+		"order".weishishareurl
+		from
+		"order",clipbought where
+		"order".objectid=clipbought.orderid
+		and
+		clipbought.clipid=#{clipId} and
+		"order".usersid=#{userId} and "order".status=1 ORDER
+		BY
+		ordertime DESC limit 1;
+	</select>
+	<select
+		id="getOrderDetailByClipId"
+		resultMap="orderResultMap">
+		select
+		"order".objectid,
+		"order".paymentid,
+		"order".usersid,
+		"order".amusementparkid,
+		"order".parkname,
+		"order".activityid,
+		"order".gameid,
+		"order".gamename,
+		"order".count,
+		"order".originalamount,
+		"order".promotionamount,
+		"order".promotionid,
+		"order".actualamount,
+		"order".status,
+		"order".ordertime,
+		"order".updatetime,
+		"order".type,
+		"order".ordertype,
+		"order".weishishare,
+		"order".weishishareurl
+		from
+		"order",clipbought where
+		"order".objectid=clipbought.orderid
+		and
+		clipbought.clipid=#{clipId} and
+		"order".usersid=#{userId} ORDER BY ordertime DESC
+		limit
+		1;
+	</select>
+	<select
+		id="getOrderList"
+		parameterType="java.util.Map"
+		resultMap="orderResultMap">
+		select
+		<include refid="dataBaseColumns"></include>
+		from "order" where 1=1 order by ordertime desc
+		limit #{limit} offset
+		#{offset};
+	</select>
+	<select
+		id="getOrderListCount"
+		parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		select count(objectid) from "order";
+	</select>
+	<select
+		id="getOrderFullPriceCount"
+		resultType="java.lang.Integer">
+		select count(objectid) from "order"
+		where ordertype=0
+		and
+		status=1
+		and
+		usersid=#{usersId}
+		and amusementparkid=#{amusementParkId}
+		and updatetime
+		&gt;=#{startDate}
+		and updatetime &lt;=#{endDate};
+	</select>
+	<select
+		id="getOrderPromotionPriceCount"
+		resultType="java.lang.Integer">
+		select count(objectid) from "order"
+		where ordertype=1
+		and
+		status=1
+		and
+		usersid=#{usersId}
+		and amusementparkid=#{amusementParkId}
+		and updatetime
+		&gt;=#{startDate}
+		and updatetime &lt;=#{endDate};
+	</select>
+	<select
+		id="getOrderHighlightMergingCount"
+		resultType="java.lang.Integer">
+		SELECT count(tmp.objectid) FROM
+		(
+		SELECT o.objectid FROM
+		"order" o
+		WHERE
+		o.usersid = #{usersId}
+		AND "type" = #{type}
+		) tmp
+		LEFT JOIN orderhighlight ohl ON
+		tmp.objectid = ohl.orderid
+		LEFT JOIN highlightbought hlb ON ohl.highlightid =
+		hlb.objectid
+		where hlb.status=#{highlightStatus}
+		and hlb."enable"=true;
+	</select>
+	<select
+		id="getOrderByHighlightId"
+		resultMap="orderResultMap">
+		SELECT
+		tmp.objectid,tmp.paymentid,tmp.usersid,tmp.amusementparkid,tmp.activityid,tmp."count",tmp.originalamount,tmp.promotionid,
+		tmp.promotionamount,tmp.actualamount,tmp.status,tmp.ordertime,tmp.updatetime,tmp."type",tmp.ordertype
+		FROM
+		(
+		SELECT
+		objectid,paymentid,usersid,amusementparkid,activityid,"count",originalamount,promotionid,promotionamount,actualamount,
+		status,ordertime,updatetime,"type",ordertype
+		FROM
+		"order"
+		WHERE
+		"type" = #{type}
+		AND
+		usersid=#{usersId}
+		) tmp
+		LEFT JOIN orderhighlight ohl ON tmp.objectid =
+		ohl.orderid
+		LEFT
+		JOIN
+		highlightbought hlb ON ohl.highlightid = hlb.objectid
+		AND
+		hlb."enable" = TRUE
+		WHERE
+		hlb.objectid = #{highlightId};
+	</select>
+</mapper>

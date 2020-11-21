@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sioeye.youle.run.order.gateways.repository.dao.UserCouponDao">
+  <select id="getUserCoupon" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"></include>
+    from "usercoupon" where userid=#{userid} and amusementparkid=#{amusementparkid} and level=0;
+  </select>
+  <select id="getUserGameCoupon" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"></include>
+    from "usercoupon" where userid=#{userid} and couponid=#{couponid};
+  </select>
+  <select id="getUserGameCouponByGameId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"></include>
+    from "usercoupon" where userid=#{userid} and amusementparkid=#{amusementparkid} and gameid=#{gameid} and level=1;
+  </select>
+</mapper>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sioeye.youle.run.payment.dao.IPaymentDao">
+	<resultMap
+		id="paymentResultMap"
+		type="com.sioeye.youle.run.payment.model.Payment">
+	</resultMap>
+	<sql id="dataBaseColumns">
+		objectid,paytime,payway,sign,noncestr,tradetype,prepayid,sioeyesign,openid,iossandboxflag,updatetime
+	</sql>
+	<!-- 添加 -->
+	<insert
+		id="save"
+		parameterType="com.sioeye.youle.run.payment.model.Payment">
+		insert into payment
+		values(#{objectId},#{payTime},#{payWay},#{sign},#{nonceStr},#{tradeType},#{prepayId},#{sioeyeSign},#{openId},#{iosSandboxFlag},#{updateTime});
+	</insert>
+	<update
+		id="update"
+		parameterType="com.sioeye.youle.run.payment.model.Payment">
+		update payment SET
+		paytime=#{payTime},
+		iossandboxflag=#{iosSandboxFlag}
+		<if test="tradeType != null and tradeType != '' ">
+			,tradetype=#{tradeType}
+		</if>
+		<if test="sign != null and sign != '' ">
+			, sign=#{sign}
+		</if>
+		<if test="nonceStr != null and nonceStr != '' ">
+			, noncestr=#{nonceStr}
+		</if>
+		<if test="prepayId != null and prepayId != '' ">
+			, prepayid=#{prepayId}
+		</if>
+		<if test="openId != null and openId != '' ">
+			, openid =#{openId}
+		</if>
+		where
+		objectid=#{objectId};
+	</update>
+	<select
+		id="getPaymentDetail"
+		parameterType="java.lang.String"
+		resultMap="paymentResultMap">
+		select
+		<include refid="dataBaseColumns"></include>
+		from payment where objectid=#{id};
+	</select>
+	<select
+		id="queryActualAmountByOrderId"
+		parameterType="java.lang.String"
+		resultType="java.lang.String">
+		select actualamount from "order" where objectid=#{orderId};
+	</select>
+	<select
+		id="queryPaymentByOrderId"
+		parameterType="java.lang.String"
+		resultMap="paymentResultMap">
+		select
+		payment.objectid,paytime,payway,sign,noncestr,tradetype,prepayid,sioeyesign,openid,iossandboxflag,payment.updatetime
+		from payment,"order" where
+		"order".paymentid=payment.objectid and
+		"order".objectid=#{orderId};
+	</select>
+</mapper>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sioeye.youle.run.order.gateways.repository.dao.CouponOrderDao">
+	<resultMap
+		id="BaseResultMap"
+		type="com.sioeye.youle.run.order.gateways.repository.dataobject.CouponOrderDo">
+	</resultMap>
+	<sql id="Base_Column_List">
+		objectid, couponid,couponorderid,userid, goodsid, goodstype, status, createtime, updatetime,couponlevel
+	</sql>
+	<insert
+		id="insertSelective"
+		parameterType="com.sioeye.youle.run.order.gateways.repository.dataobject.CouponOrderDo">
+		insert into "couponorder"
+		<trim
+			prefix="("
+			suffix=")"
+			suffixOverrides=",">
+			<if test="objectId != null">
+				objectid,
+			</if>
+			<if test="couponId != null">
+				couponid,
+			</if>
+			<if test="couponOrderId != null">
+				couponorderid,
+			</if>
+			<if test="userId != null">
+				userid,
+			</if>
+			<if test="goodsId != null">
+				goodsid,
+			</if>
+			<if test="goodsType != null">
+				goodstype,
+			</if>
+			<if test="goodsOrderId != null">
+				goodsorderid,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="createTime != null">
+				createtime,
+			</if>
+			<if test="updateTime != null">
+				updatetime,
+			</if>
+			<if test="couponlevel != null">
+				couponlevel,
+			</if>
+		</trim>
+		<trim
+			prefix="values ("
+			suffix=")"
+			suffixOverrides=",">
+			<if test="objectId != null">
+				#{objectId,jdbcType=VARCHAR},
+			</if>
+			<if test="couponId != null">
+				#{couponId,jdbcType=VARCHAR},
+			</if>
+			<if test="couponOrderId != null">
+				#{couponOrderId,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsId != null">
+				#{goodsId,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsType != null">
+				#{goodsType,jdbcType=INTEGER},
+			</if>
+			<if test="goodsOrderId != null">
+				#{goodsOrderId,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="couponlevel != null">
+				#{couponlevel,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+</mapper>

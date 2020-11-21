@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sioeye.youle.run.pay.yeepay.dao.ILedgerDetailDao">
+	<resultMap
+		id="ledgerDetailResultMap"
+		type="com.sioeye.youle.run.pay.yeepay.model.LedgerDetail">
+	</resultMap>
+	<sql id="dataBaseColumns">
+		objectid,yeepayid,ledgerno,ledgername,ledgertype,amount,proportion
+	</sql>
+	<!-- 添加 -->
+	<insert
+		id="save"
+		parameterType="com.sioeye.youle.run.pay.yeepay.model.LedgerDetail">
+		insert into ledgerdetail
+		values(#{objectId},#{yeepayId},#{ledgerNo},#{ledgerName},#{amount},#{proportion},#{ledgerType});
+	</insert>
+	<delete
+		id="removeLedgerDetailList"
+		parameterType="java.lang.String">
+		delete from ledgerdetail where yeepayid=#{yeepayId}
+	</delete>
+</mapper>

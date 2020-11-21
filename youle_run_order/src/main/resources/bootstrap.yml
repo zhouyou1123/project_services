@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: youle-run-order
+  cloud:
+    config:
+#      uri: http://config.pre-youle.sioeye.com/
+      uri: http://localhost:7010/
+logging:
+  file: \sioeye\disney\logs\springcloud\order\order.log
+  level:
+    org:
+      springframework:
+        boot: info
+    com:
+      sioeye:
+        youle:
+          run:
+            order:
+              dao: debug

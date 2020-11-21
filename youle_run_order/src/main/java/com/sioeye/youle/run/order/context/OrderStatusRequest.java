@@ -1,0 +1,14 @@
+package com.sioeye.youle.run.order.context;
+
+import java.util.List;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
+public class OrderStatusRequest {
+
+	private List<String> orderIdList;
+	private Integer deviceType;
+}

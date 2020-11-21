@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sioeye.youle.run.pay.yeepay.dao.IYeepayDao">
+	<resultMap
+		id="yeepayResultMap"
+		type="com.sioeye.youle.run.pay.yeepay.model.Yeepay">
+	</resultMap>
+	<sql id="dataBaseColumns">
+		objectid,uniqueorderno,paymentid,token,goodsparamext,parentmerchantno,merchantno,fundprocesstype,createtime,updatetime
+	</sql>
+	<!-- 添加 -->
+	<insert
+		id="save"
+		parameterType="com.sioeye.youle.run.pay.yeepay.model.Yeepay">
+		insert into yeepay
+		values(#{objectId},#{uniqueOrderNo},#{paymentId},#{token},#{goodsParamExt},#{parentMerchantNo},#{merchantNo},#{fundProcessType},#{createTime},#{updateTime});
+	</insert>
+	<update
+		id="update"
+		parameterType="com.sioeye.youle.run.pay.yeepay.model.Yeepay">
+		update yeepay SET
+		uniqueorderno=#{uniqueOrderNo},
+		paymentid=#{paymentId},
+		token=#{token},
+		goodsparamext=#{goodsParamExt},
+		parentmerchantno=#{parentMerchantNo},
+		merchantno=#{merchantNo},
+		fundprocesstype=#{fundProcessType},
+		createtime=#{createTime},
+		updatetime=#{updateTime}
+		where
+		objectid=#{objectId};
+	</update>
+	<select
+		id="getYeepayByPaymentId"
+		parameterType="java.lang.String"
+		resultMap="yeepayResultMap">
+		select
+		<include refid="dataBaseColumns"></include>
+		from yeepay where paymentid=#{paymentId};
+	</select>
+</mapper>

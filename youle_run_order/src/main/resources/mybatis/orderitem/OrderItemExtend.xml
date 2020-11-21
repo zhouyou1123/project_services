@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sioeye.youle.run.order.gateways.repository.dao.OrderItemExtendDao">
+  <resultMap id="BaseResultMap" type="com.sioeye.youle.run.order.gateways.repository.dataobject.OrderItemExtendDo">
+    <id column="objectid" jdbcType="VARCHAR" property="objectid" />
+    <result column="orderid" jdbcType="VARCHAR" property="orderid" />
+    <result column="extendcontext" jdbcType="VARCHAR" property="extendcontext" />
+    <result column="itemextendcontext" jdbcType="VARCHAR" property="itemextendcontext" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    objectid, orderid, extendcontext,itemextendcontext
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from "orderitemextend"
+    where objectid = #{objectid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from "orderitemextend"
+    where objectid = #{objectid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.sioeye.youle.run.order.gateways.repository.dataobject.OrderItemExtendDo">
+    insert into "orderitemextend" (objectid, orderid, extendcontext,itemextendcontext
+      )
+    values (#{objectid,jdbcType=VARCHAR}, #{orderid,jdbcType=VARCHAR}, #{extendcontext,jdbcType=VARCHAR},#{itemextendcontext,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sioeye.youle.run.order.gateways.repository.dataobject.OrderItemExtendDo">
+    insert into "orderitemextend"
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="objectid != null">
+        objectid,
+      </if>
+      <if test="orderid != null">
+        orderid,
+      </if>
+      <if test="extendcontext != null">
+        extendcontext,
+      </if>
+      <if test="itemextendcontext != null">
+        itemextendcontext,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="objectid != null">
+        #{objectid,jdbcType=VARCHAR},
+      </if>
+      <if test="orderid != null">
+        #{orderid,jdbcType=VARCHAR},
+      </if>
+      <if test="extendcontext != null">
+        #{extendcontext,jdbcType=VARCHAR},
+      </if>
+      <if test="itemextendcontext != null">
+        #{itemextendcontext,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sioeye.youle.run.order.gateways.repository.dataobject.OrderItemExtendDo">
+    update "orderitemextend"
+    <set>
+      <if test="orderid != null">
+        orderid = #{orderid,jdbcType=VARCHAR},
+      </if>
+      <if test="extendcontext != null">
+        extendcontext = #{extendcontext,jdbcType=VARCHAR},
+      </if>
+      <if test="itemextendcontext != null">
+        itemextendcontext = #{itemextendcontext,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where objectid = #{objectid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sioeye.youle.run.order.gateways.repository.dataobject.OrderItemExtendDo">
+    update "orderitemextend"
+    set orderid = #{orderid,jdbcType=VARCHAR},
+      extendcontext = #{extendcontext,jdbcType=VARCHAR},
+      itemextendcontext = #{itemextendcontext,jdbcType=VARCHAR}
+    where objectid = #{objectid,jdbcType=VARCHAR}
+  </update>
+</mapper>
